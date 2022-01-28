@@ -1,0 +1,2 @@
+# argosamples
+Some ArgoCD samples
