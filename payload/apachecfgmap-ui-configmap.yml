@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  input.properties: |
+    my_content: ${CONTENT}
+kind: ConfigMap
+metadata:
+  name: apacheconfigmap03-1203889852-configmap-cfg-426563333
