@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  input.properties: |
+    my_content: {{ .Values.content }}
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap

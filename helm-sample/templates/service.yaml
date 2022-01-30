@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-apacheservice03
+spec:
+  ports:
+  - name: http-endpoint
+    port: 80
+    protocol: TCP
+    targetPort: http-endpoint
+  selector:
+    app: {{ .Release.Name }}-apachedeployment03
+  sessionAffinity: None
+  type: NodePort
