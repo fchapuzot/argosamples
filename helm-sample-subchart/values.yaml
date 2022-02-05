@@ -1,0 +1,4 @@
+server:
+  name: svcserver
+  port: 8080
+  message: Working server

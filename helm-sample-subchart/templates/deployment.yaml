@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment-serve
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: "apacheserver"
+        image: fchapuzot/customhttpd:2.4
+        imagePullPolicy: Always
+        env:
+        - name: SERVER_MESSAGE
+          value: {{ .Values.server.message | quote }}
+        ports:
+        -  name: server-endpoint
+           containerPort: 8000
+

@@ -1,0 +1,26 @@
+{
+  "$schema" 	: "https://json-schema.org/#",
+  "description" : "A Json schema for the Apache Client Chart",
+  "type" 	: "object",
+  "properties"  : {
+    "server" : {
+      "type" : "object",
+      "properties" : {
+        "ip" : {
+          "type" : "string",
+          "title" : "The server IP"
+        },
+        "port" : {
+          "type" : "integer",
+          "title" : "The Server port",
+          "a4c:annotaton" : "This is a custom annotation"
+        },
+        "message" : {
+          "type" : "string",
+          "title" : "The server message"
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: "apacheclient"
+        image: fchapuzot/customhttpd:2.4
+        imagePullPolicy: Always
+        env:
+        - name: SERVER_MESSAGE
+          value: {{ .Values.server.message | quote }}
+        ports:
+        -  name: server-endpoint
+           containerPort: 8000
+        lifecycle:
+          postStart:
+           exec:
+             command:
+             - "/bin/bash"
+             - "-c"
+             - "echo 'This is the server URL http://{{ .Values.server.ip}}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.server.port }} {{ .Values.server.message }}' > /usr/local/apache2/htdocs/index.html"
+
