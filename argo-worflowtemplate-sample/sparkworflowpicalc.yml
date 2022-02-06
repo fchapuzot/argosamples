@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: wf-spark-pi-template
+spec:
+  entrypoint: sparkapp
+  templates:
+  - name: sparkapp
+    container:
+      image: fchapuzot/spark:3.0.1-root
+      imagePullPolicy: Always
+      name: ""
+      command: [sh]
+      args:
+      - /opt/spark/bin/spark-submit 
+      - --master 
+      - k8s://https://172.31.11.156:6443
+      - --deploy-mode
+      - cluster
+      - --conf 
+      - spark.kubernetes.namespace=argo-w
+      - --conf
+      - spark.kubernetes.container.image=fchapuzot/spark:3.0.1-root
+      - --conf
+      - spark.kubernetes.driver.pod.name=spark-0
+      - --conf 
+      - spark.executor.instances=2
+      - --conf
+      - spark.kubernetes.authenticate.driver.serviceAccountName=spark-sa
+      - --conf
+      - spark.jars.ivy=/tmp/.ivy
+      - --class
+      - org.apache.spark.examples.SparkPi
+      - local:/opt/spark/examples/jars/spark-examples_2.12-3.0.1.jar
+      resources: {}      
+    restartPolicy: OnFailure
+    serviceAccountName: spark-sa
